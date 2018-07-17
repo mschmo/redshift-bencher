@@ -1,0 +1,53 @@
+{
+  "groups": [
+    {
+      "name": "control",
+      "description": "Some generic description",
+      "isControl": true
+    },
+    {
+      "name": "dims_all_dist",
+      "description": "Every dimension using DISTYLE ALL",
+      "distStyle": "all",
+      "tables": [
+        {
+          "schema": "public",
+          "name": "d_user",
+          "mods": {
+            "distStyle": "all",
+            "sortKeys": [
+              "user_dim_id"
+            ]
+          }
+        }, {
+          "schema": "public",
+          "name": "d_role",
+          "mods": {
+            "distStyle": "all",
+            "sortKeys": [
+              "role_dim_id"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "setUp": [
+    "CREATE OR REPLACE VIEW public.vw_users AS SELECT * FROM public.d_user"
+  ],
+  "queries": [
+    {
+      "name": "count_user_stats",
+      "sql": "SELECT COUNT(*) FROM public.f_user_stats",
+      "numRuns": 4,
+      "expectedResult": null
+    },
+    {
+      "name": "product_perf_with_device_other",
+      "sql": "SELECT COUNT(*) FROM public.f_products p JOIN public.d_device d ON d.device_dim_id = p.device_dim_id WHERE d.device_nm = 'other'"
+    }
+  ],
+  "tearDown": [
+      "DROP VIEW IF EXISTS public.vw_users"
+  ]
+}
