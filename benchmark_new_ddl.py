@@ -171,6 +171,7 @@ def write_results(results, config):
 
 
 def main(conf_file, database=None):
+    # First parse the config file and establish new connection/cursor objects
     config = Config(conf_file)
     conn, curr = get_pg_conn(database, BenchLoggingConnection, logger)
 
